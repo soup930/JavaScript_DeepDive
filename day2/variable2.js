@@ -7,6 +7,7 @@ let block = {
     , 4 : false
     , 5 : false
     , 6 : false
+    , 7 : true
 };
 
 
@@ -100,4 +101,36 @@ if (block[6]) {
 
     console.log(FINAL_OBJECT.value);
     // 456
+}
+
+
+if (block[7]) {
+
+    let foo = 'let 전역';           // let 전역 변수
+    var foo2 = 'var 전역';          // var 전역 변수
+    const conVar = 'const 상수';    // 상수;
+
+    {   // 블록1 start
+
+        console.log(foo);   // let 전역
+        console.log(foo2);  // var 전역
+        console.log(conVar);// const 상수
+
+    }   // 블록1 end
+
+    {   // 블록2 start
+
+        console.log(foo);   // ReferenceError, 전역 변수를 참조 하지 않는다.
+        console.log(foo2);  // var 전역, 전역 변수를 참조 한다.
+        console.log(conVar);// ReferenceError, 전역 변수를 참조 하지 않는다.
+
+        let foo = 'let 지역';           // let 지역 변수
+        var foo2 = 'var 지역';          // var 전역 변수에 재할당 한다.
+        const conVar = 'const 지역';    // 지역 상수;
+
+        console.log(foo);   // let 지역, 지역 변수를 참조 한다.
+        console.log(foo2);  // var 지역, 전역 변수를 참조 한다.
+        console.log(conVar);// const 지역, 지역 변수를 참조 한다.
+
+    }   // 블록2 end
 }

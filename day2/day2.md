@@ -4,14 +4,14 @@
    
 ## Day1에 알아본 var 키워드의 단점.
 
-1. 선언과 동시에 초기화 되어 변수 호이스팅이 발생.
+1. 선언과 동시에 undefined 값이 초기화 되어 변수 호이스팅이 발생.
 2. 중복 선언 가능.
 3. 함수 레벨 스코프.
    
 ## 또 다른 키워드 let
 
-ES6에서 새롭게 도입된 변수 선언 키워드 let
-var 키워드의 단점들을 커버하는 키워드이기에 var 보다는 let 키워드를 사용하는 것이 추천되고 있다.
+ES6에서 새롭게 도입된 변수 선언 키워드 let.   
+기존의 var 키워드의 단점들을 커버하는 키워드이기에 var 보다는 let 키워드를 사용하는 것이 추천되고 있다.
 
 ```javascript
 let foo;    // var의 대표적인 3가지 단점을 모두 커버하는 대단한 녀석이다.
@@ -19,7 +19,7 @@ let foo;    // var의 대표적인 3가지 단점을 모두 커버하는 대단�
 
 ### 1. 변수 호이스팅 방지
 
-let 키워드는 선언 단계와 초기화 단계가 구분되어 있다. var 키워드와는 달리 선언만으로 변수 값이 등록 되지도, 실행 컨텍스트(execution context)에 등록되지도 않는다.
+let 키워드는 선언 단계와 초기화 단계가 구분되어 있다. var 키워드와는 달리 선언만으로 undefined 값이 초기화 되지도, 실행 컨텍스트(execution context)에 등록되지도 않는다.
 다만 런타임 시점에 변수가 생성되는 건 var과 같다.
 ```javascript
     console.log(foo); 
@@ -132,3 +132,43 @@ JS는 변수 값으로 단순한 문자열이 아닌 객체를 할당 할 수 �
     console.log(FINAL_OBJECT.value);
     // 456
 ```
+
+---------------------------------------------
+
+## let, const 키워드의 호이스팅
+
+let, const 키워드는 블록 레벨의 스코프를 갖는다. 하지만 이러한 특징 때문에 호이스팅이 발생하기도 한다.
+
+```javascript
+    let foo = 'let 전역';           // let 전역 변수
+    var foo2 = 'var 전역';          // var 전역 변수
+    const conVar = 'const 상수';    // 상수;
+
+    {   // 블록1 start
+
+        console.log(foo);   // let 전역
+        console.log(foo2);  // var 전역
+        console.log(conVar);// const 상수
+
+    }   // 블록1 end
+
+    {   // 블록2 start
+
+        console.log(foo);   // ReferenceError, 전역 변수를 참조 하지 않는다.
+        console.log(foo2);  // var 전역, 전역 변수를 참조 한다.
+        console.log(conVar);// ReferenceError, 전역 변수를 참조 하지 않는다.
+
+        let foo = 'let 지역';           // let 지역 변수
+        var foo2 = 'var 지역';          // var 전역 변수에 재할당 한다.
+        const conVar = 'const 지역';    // 지역 상수;
+
+        console.log(foo);   // let 지역, 지역 변수를 참조 한다.
+        console.log(foo2);  // var 지역, 전역 변수를 참조 한다.
+        console.log(conVar);// const 지역, 지역 변수를 참조 한다.
+
+    }   // 블록2 end
+```
+
+블록2에는 전역 변수와 같은 이름으로 지역 변수를 선언했다. 지역 변수가 선언되지 않은 블록1은 전역 변수를 참조한다.
+let, const 키워드는 블록 내에서 선언 될 경우 블록 스코프를 생성한다. 블록 내에서는 블록 스코프가 전역 스코프보다 우선 순위가 높기 때문에 블록 스코프를 참조하게 된다.   
+즉, 같은 이름으로 선언 된 let, const 지역 변수가 있는 경우 해당 블록은 먼저 선언 된 전역 변수를 참조하지 않는다.
