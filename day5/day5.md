@@ -264,3 +264,30 @@ JS 엔진은 값을 처리할 때 처리된 결과 값의 타입을 적절하게
     console.log(    !!null      ); // -> false
     console.log(    !!undefined ); // -> false
 ```
+
+## 조금 이상한 불리언 타입으로 변환
+
+JS 문법 중에는 불리언 타입으로만 해석되는 어문도 있다. 조건문이나 제어문 등에 들어가는 조건식(true, false 구별하는 부분)이 그렇다.   
+어떤 값을 넣어도 true, false 문으로만 해석되며 이 때 true로 해석되는 값을 Truthy 값, false로 해석되는 값을 Falsy 값이라 한다.
+
+```javascript
+    // 제어문이나 삼항 연산자 등에 들어가는 조건식은 무조건 불리언 값으로 해석된다.
+    
+    if ('')     {   console.log('false')    } 
+    if (true)   {   console.log('true')    }   // true
+    if (0)      {   console.log('false')    }  
+    if ('str')  {   console.log('true')    }   // true
+    if (null)   {   console.log('false')    }  
+
+    // JS 엔진은 불리언 타입이 아닌 값을 Truthy (참으로 평가) 혹은 Falsy (거짓으로 평가)로 나눈다.
+    // 아래의 값들은 false로 평가되는 Falsy 값이다.
+
+    if (!false)     {   console.log(`false는 Falsy 값이다.`)    }
+    if (!undefined) {   console.log('undefined는 Falsy 값이다.')    }
+    if (!null)      {   console.log(`null은 Falsy 값이다.`)     }
+    if (!0)         {   console.log(`0은 Falsy 값이다.`)        }
+    if (!NaN)       {   console.log(`NaN은 Falsy 값이다.`)}
+
+    // 이 외의 값들은 모두 Truthy 값이다.
+    
+```
